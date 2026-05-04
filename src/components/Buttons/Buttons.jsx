@@ -34,17 +34,16 @@ const Buttons = ({ text, setText }) => {
         return;
       }
 
-      // ✅ IMPORTANT FIX → combine date + time
-      const datetime = `${date} ${time}`;
-
+      // ✅ CORRECT PAYLOAD (MATCH BACKEND)
       const payload = {
         text,
-        datetime, // ✅ MUST MATCH BACKEND
+        date, // ✅ separate
+        time, // ✅ separate
         to_email: toEmail.trim(),
         cc_email: ccEmail ? ccEmail.trim() : null,
       };
 
-      console.log("Sending:", payload);
+      console.log("✅ Sending:", payload);
 
       // ✅ API CALLS
       if (type === "start") {
@@ -65,7 +64,7 @@ const Buttons = ({ text, setText }) => {
       setText("");
 
     } catch (error) {
-      console.log("ERROR:", error.response?.data);
+      console.log("❌ ERROR:", error.response?.data);
 
       const msg =
         error.response?.data?.detail?.[0]?.msg ||
