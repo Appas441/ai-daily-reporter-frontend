@@ -1,62 +1,445 @@
+/* LogForm.css - Professional Light Theme with Smooth Animations */
+
+/* Main Textarea Styling */
 textarea {
   width: 100%;
-  min-height: 160px;
-  padding: 14px 16px;
-
-  border-radius: 14px;
-  border: 1px solid #e5e7eb;
-
-  font-size: 14px;
-  line-height: 1.5;
-  font-family: inherit;
-
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(6px);
-
-  resize: none;
-  transition: all 0.25s ease;
-
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  margin-bottom: 20px;
+  min-height: 200px;
+  padding: 18px 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2d3748;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  resize: vertical;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  animation: fadeInScale 0.5s ease-out;
 }
 
-/* Placeholder style */
-textarea::placeholder {
-  color: #9ca3af;
-  font-size: 13px;
+/* Hover Effect */
+textarea:hover {
+  border-color: #cbd5e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Focus state */
+/* Focus Effect */
 textarea:focus {
   outline: none;
-  border-color: #6366f1;
-
-  box-shadow:
-    0 0 0 3px rgba(99, 102, 241, 0.15),
-    0 6px 16px rgba(99, 102, 241, 0.2);
-
-  background: #fff;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1), 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
-/* Hover effect */
-textarea:hover {
-  border-color: #c7d2fe;
+/* Placeholder Styling */
+textarea::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Smooth typing feel */
-textarea:active {
-  transform: scale(0.998);
+textarea:focus::placeholder {
+  opacity: 0.5;
+  transform: translateX(5px);
 }
 
-/* Optional: auto-grow feel (visual only) */
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: #e2e8f0;
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0);
+  }
+  50% {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-3px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.01);
+    opacity: 0.95;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Character Counter Animation */
+.char-counter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #718096;
+  font-family: monospace;
+  animation: slideUp 0.3s ease-out;
+  transition: all 0.3s ease;
+}
+
+.char-counter.warning {
+  color: #ed8936;
+  font-weight: 600;
+}
+
+.char-counter.danger {
+  color: #fc8181;
+  font-weight: 700;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Loading State */
+textarea.loading {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  color: transparent;
+  cursor: wait;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Error State */
+textarea.error {
+  border-color: #fc8181;
+  background-color: #fff5f5;
+  animation: shake 0.4s ease;
+}
+
+textarea.error:focus {
+  border-color: #fc8181;
+  box-shadow: 0 0 0 4px rgba(252, 129, 129, 0.1);
+}
+
+/* Success State */
+textarea.success {
+  border-color: #48bb78;
+  background-color: #f0fff4;
+  animation: pulse 0.5s ease;
+}
+
+/* Resize Handle Styling */
+textarea::-webkit-resizer {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 0 0 12px 0;
+}
+
+/* Custom Scrollbar for Textarea */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+/* Textarea Wrapper */
+.logform-wrapper {
+  position: relative;
+  margin-bottom: 24px;
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Label Styling */
+.logform-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: fadeInScale 0.4s ease-out;
+}
+
+/* Floating Label Effect */
+.logform-wrapper.floating {
+  position: relative;
+}
+
+.logform-wrapper.floating textarea {
+  padding-top: 28px;
+}
+
+.logform-wrapper.floating .floating-label {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  color: #a0aec0;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.logform-wrapper.floating textarea:focus + .floating-label,
+.logform-wrapper.floating textarea:not(:placeholder-shown) + .floating-label {
+  top: 8px;
+  font-size: 11px;
+  color: #4299e1;
+  font-weight: 600;
+}
+
+/* Word Count Badge */
+.word-count {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4a5568;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  animation: fadeInScale 0.5s ease-out;
+}
+
+textarea:focus + .word-count {
+  background: #4299e1;
+  color: white;
+}
+
+/* Expand Animation on Focus */
+@keyframes expand {
+  from {
+    transform: scaleY(0.98);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 textarea:focus {
-  min-height: 180px;
+  animation: expand 0.2s ease-out;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Gradient Border Effect */
+textarea.gradient-border {
+  position: relative;
+  background: white;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+textarea.gradient-border:focus {
+  border: 2px solid transparent;
+  background: white;
+  background-clip: padding-box;
+}
+
+/* Typewriter Placeholder Effect */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+textarea.typewriter-placeholder::placeholder {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #4299e1;
+  animation: blink 0.75s step-end infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   textarea {
-    font-size: 13px;
-    padding: 12px;
+    min-height: 160px;
+    padding: 14px 16px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+  
+  .word-count {
+    bottom: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  textarea {
+    min-height: 140px;
+    padding: 12px 14px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  
+  .logform-label {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Disabled State */
+textarea:disabled {
+  background-color: #f7fafc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+textarea:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Read-only State */
+textarea:read-only {
+  background-color: #f7fafc;
+  border-color: #e2e8f0;
+  cursor: default;
+}
+
+/* Ripple Effect on Click */
+textarea {
+  position: relative;
+  overflow: hidden;
+}
+
+textarea:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(66, 153, 225, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  pointer-events: none;
+}
+
+textarea:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Focus Ring Animation */
+@keyframes focusRing {
+  from {
+    box-shadow: 0 0 0 0 rgba(66, 153, 225, 0);
+  }
+  to {
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.2);
+  }
+}
+
+textarea:focus {
+  animation: focusRing 0.3s ease-out;
+}
+
+/* Print Styles */
+@media print {
+  textarea {
+    border: 1px solid #ddd;
+    box-shadow: none;
+    min-height: 150px;
+  }
+  
+  textarea:focus {
+    box-shadow: none;
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  textarea,
+  textarea::placeholder,
+  .char-counter,
+  .word-count {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  textarea:focus {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  textarea {
+    border: 2px solid #000;
+  }
+  
+  textarea:focus {
+    outline: 3px solid #000;
+    box-shadow: none;
   }
 }
