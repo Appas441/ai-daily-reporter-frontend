@@ -34,26 +34,26 @@ const Buttons = ({ text, setText }) => {
         return;
       }
 
-      // ✅ FINAL PAYLOAD (MATCH BACKEND)
+      // ✅ FINAL PAYLOAD (100% MATCH BACKEND)
       const payload = {
         text: text.trim(),
         date: date,
         time: time,
         to_email: toEmail.trim(),
-        cc_email: ccEmail.trim() || null,
+        cc_email: ccEmail.trim() ? ccEmail.trim() : null,
       };
 
-      console.log("✅ Sending:", payload);
+      console.log("🚀 FINAL PAYLOAD:", JSON.stringify(payload, null, 2));
 
       // ✅ API CALLS
       if (type === "start") {
-        await API.post("/start-day", payload);
-        toast.success("Start scheduled ✅");
+        const res = await API.post("/start-day", payload);
+        toast.success(res.data?.message || "Start scheduled ✅");
       }
 
       if (type === "end") {
-        await API.post("/end-day", payload);
-        toast.success("End scheduled 📧");
+        const res = await API.post("/end-day", payload);
+        toast.success(res.data?.message || "End scheduled 📧");
       }
 
       if (type === "save") {
@@ -61,7 +61,7 @@ const Buttons = ({ text, setText }) => {
         toast.success("Log saved 💾");
       }
 
-      // ✅ RESET
+      // ✅ RESET FORM
       setText("");
       setDate("");
       setTime("");
@@ -69,7 +69,7 @@ const Buttons = ({ text, setText }) => {
       setCcEmail("");
 
     } catch (error) {
-      console.log("❌ ERROR:", error.response?.data);
+      console.log("❌ FULL ERROR:", error);
 
       let msg = "Something went wrong ❌";
 
@@ -92,6 +92,7 @@ const Buttons = ({ text, setText }) => {
   return (
     <div>
 
+      {/* TO EMAIL */}
       <input
         type="email"
         placeholder="To Email"
@@ -100,6 +101,7 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setToEmail(e.target.value)}
       />
 
+      {/* CC EMAIL */}
       <input
         type="email"
         placeholder="CC Email (optional)"
@@ -108,6 +110,7 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setCcEmail(e.target.value)}
       />
 
+      {/* DATE */}
       <input
         type="date"
         className="input"
@@ -115,6 +118,7 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setDate(e.target.value)}
       />
 
+      {/* TIME */}
       <input
         type="time"
         className="input"
