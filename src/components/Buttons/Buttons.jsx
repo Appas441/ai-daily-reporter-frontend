@@ -37,10 +37,10 @@ const Buttons = ({ text, setText }) => {
       // ✅ FINAL PAYLOAD (MATCH BACKEND)
       const payload = {
         text: text.trim(),
-        date,
-        time,
+        date: date,
+        time: time,
         to_email: toEmail.trim(),
-        cc_email: ccEmail.trim() || null, // ✅ important fix
+        cc_email: ccEmail.trim() || null,
       };
 
       console.log("✅ Sending:", payload);
@@ -61,7 +61,7 @@ const Buttons = ({ text, setText }) => {
         toast.success("Log saved 💾");
       }
 
-      // ✅ RESET INPUTS
+      // ✅ RESET
       setText("");
       setDate("");
       setTime("");
@@ -71,7 +71,6 @@ const Buttons = ({ text, setText }) => {
     } catch (error) {
       console.log("❌ ERROR:", error.response?.data);
 
-      // ✅ HANDLE MULTIPLE FASTAPI ERRORS
       let msg = "Something went wrong ❌";
 
       if (error.response?.data?.detail) {
@@ -79,7 +78,7 @@ const Buttons = ({ text, setText }) => {
 
         if (Array.isArray(details)) {
           msg = details.map((e) => e.msg).join(", ");
-        } else if (typeof details === "string") {
+        } else {
           msg = details;
         }
       }
@@ -93,7 +92,6 @@ const Buttons = ({ text, setText }) => {
   return (
     <div>
 
-      {/* TO EMAIL */}
       <input
         type="email"
         placeholder="To Email"
@@ -102,7 +100,6 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setToEmail(e.target.value)}
       />
 
-      {/* CC EMAIL */}
       <input
         type="email"
         placeholder="CC Email (optional)"
@@ -111,7 +108,6 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setCcEmail(e.target.value)}
       />
 
-      {/* DATE */}
       <input
         type="date"
         className="input"
@@ -119,7 +115,6 @@ const Buttons = ({ text, setText }) => {
         onChange={(e) => setDate(e.target.value)}
       />
 
-      {/* TIME */}
       <input
         type="time"
         className="input"
@@ -128,24 +123,15 @@ const Buttons = ({ text, setText }) => {
       />
 
       <div className="button-group">
-        <button
-          onClick={() => handleAction("start")}
-          disabled={loading === "start"}
-        >
+        <button onClick={() => handleAction("start")} disabled={loading === "start"}>
           {loading === "start" ? "Scheduling..." : "Start Day"}
         </button>
 
-        <button
-          onClick={() => handleAction("save")}
-          disabled={loading === "save"}
-        >
+        <button onClick={() => handleAction("save")} disabled={loading === "save"}>
           {loading === "save" ? "Saving..." : "Save Log"}
         </button>
 
-        <button
-          onClick={() => handleAction("end")}
-          disabled={loading === "end"}
-        >
+        <button onClick={() => handleAction("end")} disabled={loading === "end"}>
           {loading === "end" ? "Scheduling..." : "End Day"}
         </button>
       </div>
