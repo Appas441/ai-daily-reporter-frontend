@@ -34,13 +34,13 @@ const Buttons = ({ text, setText }) => {
         return;
       }
 
-      // ✅ CORRECT PAYLOAD (MATCH BACKEND)
+      // ✅ FINAL PAYLOAD (MATCH BACKEND)
       const payload = {
-        text,
-        date, // ✅ separate
-        time, // ✅ separate
+        text: text.trim(),
+        date,
+        time,
         to_email: toEmail.trim(),
-        cc_email: ccEmail ? ccEmail.trim() : null,
+        cc_email: ccEmail.trim() || null, // ✅ important fix
       };
 
       console.log("✅ Sending:", payload);
@@ -57,19 +57,32 @@ const Buttons = ({ text, setText }) => {
       }
 
       if (type === "save") {
-        await API.post("/log", { text });
+        await API.post("/log", { text: text.trim() });
         toast.success("Log saved 💾");
       }
 
+      // ✅ RESET INPUTS
       setText("");
+      setDate("");
+      setTime("");
+      setToEmail("");
+      setCcEmail("");
 
     } catch (error) {
       console.log("❌ ERROR:", error.response?.data);
 
-      const msg =
-        error.response?.data?.detail?.[0]?.msg ||
-        error.response?.data?.message ||
-        "Something went wrong ❌";
+      // ✅ HANDLE MULTIPLE FASTAPI ERRORS
+      let msg = "Something went wrong ❌";
+
+      if (error.response?.data?.detail) {
+        const details = error.response.data.detail;
+
+        if (Array.isArray(details)) {
+          msg = details.map((e) => e.msg).join(", ");
+        } else if (typeof details === "string") {
+          msg = details;
+        }
+      }
 
       toast.error(msg);
     } finally {
